@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tool Checkout Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Select a Tool to Check Out</h1>
+    
+    <div class="tool-grid">
+        <div class="tool-item">
+            <img src="Ladder.png" alt="Image of a Ladder">
+            <p>Ladder</p>
+            <form class="tool-form" data-tool-id="LADDER">
+                <label for="crew-ladder">Select Crew:</label>
+                <select id="crew-ladder" name="crew" class="crew-select" required>
+                    <option value="">-- Select --</option>
+                    <option value="crew1">Crew 1</option>
+                    <option value="crew2">Crew 2</option>
+                    <option value="crew3">Crew 3</option>
+                </select>
+                <div class="action-buttons">
+                    <label class="radio-label">
+                        <input type="radio" name="action-ladder" value="checkout" required>
+                        <span>Check Out</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="action-ladder" value="checkin" required>
+                        <span>Check In</span>
+                    </label>
+                </div>
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+        
+        <div class="tool-item">
+            <img src="Bucket.png" alt="Image of a Skid Steer Bucket">
+            <p>Skid Steer Bucket</p>
+            <form class="tool-form" data-tool-id="BUCKET">
+                <label for="crew-bucket">Select Crew:</label>
+                <select id="crew-bucket" name="crew" class="crew-select" required>
+                    <option value="">-- Select --</option>
+                    <option value="crew1">Crew 1</option>
+                    <option value="crew2">Crew 2</option>
+                    <option value="crew3">Crew 3</option>
+                </select>
+                <div class="action-buttons">
+                    <label class="radio-label">
+                        <input type="radio" name="action-bucket" value="checkout" required>
+                        <span>Check Out</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="action-bucket" value="checkin" required>
+                        <span>Check In</span>
+                    </label>
+                </div>
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+        
+        <div class="tool-item">
+            <img src="Saw.png" alt="Image of a Saw">
+            <p>Saw</p>
+            <form class="tool-form" data-tool-id="SAW">
+                <label for="crew-saw">Select Crew:</label>
+                <select id="crew-saw" name="crew" class="crew-select" required>
+                    <option value="">-- Select --</option>
+                    <option value="crew1">Crew 1</option>
+                    <option value="crew2">Crew 2</option>
+                    <option value="crew3">Crew 3</option>
+                </select>
+                <div class="action-buttons">
+                    <label class="radio-label">
+                        <input type="radio" name="action-saw" value="checkout" required>
+                        <span>Check Out</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="action-saw" value="checkin" required>
+                        <span>Check In</span>
+                    </label>
+                </div>
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+        
+        <div class="tool-item">
+            <img src="Generator.png" alt="Image of a Generator">
+            <p>Generator</p>
+            <form class="tool-form" data-tool-id="GENERATOR">
+                <label for="crew-generator">Select Crew:</label>
+                <select id="crew-generator" name="crew" class="crew-select" required>
+                    <option value="">-- Select --</option>
+                    <option value="crew1">Crew 1</option>
+                    <option value="crew2">Crew 2</option>
+                    <option value="crew3">Crew 3</option>
+                </select>
+                <div class="action-buttons">
+                    <label class="radio-label">
+                        <input type="radio" name="action-generator" value="checkout" required>
+                        <span>Check Out</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="action-generator" value="checkin" required>
+                        <span>Check In</span>
+                    </label>
+                </div>
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+        
+        <div class="tool-item">
+            <img src="Rig Chain.png" alt="Image of a Rigging Chain">
+            <p>Rigging Chain</p>
+            <form class="tool-form" data-tool-id="CHAIN">
+                <label for="crew-chain">Select Crew:</label>
+                <select id="crew-chain" name="crew" class="crew-select" required>
+                    <option value="">-- Select --</option>
+                    <option value="crew1">Crew 1</option>
+                    <option value="crew2">Crew 2</option>
+                    <option value="crew3">Crew 3</option>
+                </select>
+                <div class="action-buttons">
+                    <label class="radio-label">
+                        <input type="radio" name="action-chain" value="checkout" required>
+                        <span>Check Out</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="action-chain" value="checkin" required>
+                        <span>Check In</span>
+                    </label>
+                </div>
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const WEBHOOK_URL = 'https://michaelcarey.app.n8n.cloud/webhook/4acc136e-07cb-4ba3-889d-a3436b7c6334';
+
+        // Add event listener to all forms
+        document.querySelectorAll('.tool-form').forEach(form => {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault(); // Prevent default form submission
+
+                const toolId = form.getAttribute('data-tool-id');
+                const crewSelect = form.querySelector('.crew-select');
+                const crew = crewSelect.value;
+
+                // Find the selected action radio button
+                const actionRadios = form.querySelectorAll('input[type="radio"]');
+                let action = null;
+                actionRadios.forEach(radio => {
+                    if (radio.checked) {
+                        action = radio.value;
+                    }
+                });
+
+                // Validate form data
+                if (!crew || !action) {
+                    alert('Please select a crew and an action.');
+                    return;
+                }
+
+                // Prepare data to send
+                const data = {
+                    tool_id: toolId,
+                    crew_id: crew,
+                    action: action,
+                    timestamp: new Date().toISOString()
+                };
+
+                // Disable submit button while processing
+                const submitBtn = form.querySelector('.submit-btn');
+                const originalText = submitBtn.textContent;
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
+
+                try {
+                    // Send POST request to webhook
+                    const response = await fetch(WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        submitBtn.textContent = 'Success!';
+                        submitBtn.style.backgroundColor = '#4CAF50';
+                        
+                        // Reset form after a short delay
+                        setTimeout(() => {
+                            form.reset();
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = originalText;
+                            submitBtn.style.backgroundColor = '';
+                        }, 2000);
+                    } else {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                } catch (error) {
+                    console.error('Error submitting form:', error);
+                    alert('Failed to submit. Please try again.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
